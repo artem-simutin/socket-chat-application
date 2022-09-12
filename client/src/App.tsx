@@ -17,23 +17,36 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const sendMessage = () => {
+    if (text.length === 0) return;
+    socket.emit("create", text, () => {
+      setText("");
+    });
     return;
   };
 
   const joinRoom = () => {
-    socket.emit("join", author, (response: any) => {
+    socket.emit("join", author, (response: string[]) => {
       setConnected(true);
     });
     return;
   };
 
   useEffect(() => {
-    if (isConnected) {
-      socket.emit("find-all", {}, (response: any) => {
+    if (isConnected && messages.length === 0) {
+      socket.emit("find-all", {}, (response: Message[]) => {
         setMessages(response);
       });
     }
-  }, [isConnected]);
+  }, [isConnected, messages.length]);
+
+  useEffect(() => {
+    socket.on("message", (message: Message) => {
+      setMessages((prev) => {
+        if (prev.some((mes) => mes.id === message.id)) return prev;
+        return [...prev, message];
+      });
+    });
+  }, []);
 
   if (!isConnected) {
     return (

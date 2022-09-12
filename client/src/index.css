@@ -62,6 +62,8 @@ code {
   margin-right: auto;
   padding: 4px 6px;
   border-radius: 3px;
+  max-width: 240px;
+  margin-bottom: 12px;
 }
 
 .message-foreign > span {
@@ -71,10 +73,12 @@ code {
 
 .message-mine {
   background-color: #42fb42;
-  margin-right: auto;
+  margin-left: auto;
   padding: 4px 6px;
   border-radius: 3px;
   color: black;
+  max-width: 240px;
+  margin-bottom: 12px;
 }
 
 .message-mine > span {
